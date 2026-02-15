@@ -1,0 +1,7 @@
+{
+  "subject": "Welcome to {{appName}}, {{name}}!",
+  "greeting": "Hello {{name}},",
+  "body": "Thank you for joining {{appName}}. We're excited to have you on board.",
+  "cta": "Get Started",
+  "footer": "You received this email because you signed up for {{appName}}."
+}
