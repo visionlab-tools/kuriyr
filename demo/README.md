@@ -16,10 +16,18 @@ This starts:
 | **Kuriyr** | [http://localhost:4400](http://localhost:4400) | API + monitoring dashboard |
 | **Mailpit** | [http://localhost:8025](http://localhost:8025) | Captured emails inbox |
 
+## Authentication
+
+The demo comes with authentication enabled:
+
+- **Dashboard**: username `admin`, password `admin`
+- **API**: Bearer token `demo-secret-token`
+
 ## Send a test email
 
 ```bash
 curl -X POST http://localhost:4400/send \
+  -H "Authorization: Bearer demo-secret-token" \
   -H "Content-Type: application/json" \
   -d '{
     "template": "welcome",
@@ -38,6 +46,7 @@ Then open [http://localhost:8025](http://localhost:8025) to see the captured ema
 
 ```bash
 curl -X POST http://localhost:4400/preview \
+  -H "Authorization: Bearer demo-secret-token" \
   -H "Content-Type: application/json" \
   -d '{
     "template": "welcome",

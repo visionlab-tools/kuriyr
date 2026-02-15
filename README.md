@@ -121,6 +121,9 @@ You can configure Kuriyr entirely via environment variables, which is ideal for 
 | `KURIYR_SMTP_SECURE` | Use TLS | `false` |
 | `KURIYR_SMTP_USER` | SMTP username | *(optional)* |
 | `KURIYR_SMTP_PASS` | SMTP password | *(optional)* |
+| `KURIYR_DASHBOARD_USER` | Dashboard HTTP Basic username | *(disabled)* |
+| `KURIYR_DASHBOARD_PASSWORD` | Dashboard HTTP Basic password | *(disabled)* |
+| `KURIYR_API_TOKEN` | Bearer token for API routes | *(disabled)* |
 
 Example with Docker Compose:
 
@@ -140,6 +143,33 @@ services:
       - KURIYR_SMTP_PORT=587
       - KURIYR_SMTP_USER=your-user
       - KURIYR_SMTP_PASS=your-password
+```
+
+## Authentication
+
+Authentication is **optional**. When no auth variables are set, Kuriyr runs without any protection (backward compatible).
+
+### Dashboard (HTTP Basic Auth)
+
+Set both `KURIYR_DASHBOARD_USER` and `KURIYR_DASHBOARD_PASSWORD` to protect the dashboard with HTTP Basic Auth. The browser will prompt for credentials.
+
+### API (Bearer Token)
+
+Set `KURIYR_API_TOKEN` to protect the `/send`, `/preview`, and `/logs` routes. Pass the token in the `Authorization` header:
+
+```bash
+curl -X POST http://localhost:4400/send \
+  -H "Authorization: Bearer your-secret-token" \
+  -H "Content-Type: application/json" \
+  -d '{ "template": "welcome", "to": "user@example.com", "variables": {} }'
+```
+
+### Generate a token
+
+Use the built-in CLI to generate a cryptographically secure token:
+
+```bash
+pnpm generate-token
 ```
 
 ## API Reference

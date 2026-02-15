@@ -17,4 +17,7 @@ services:
       - KURIYR_SMTP_SECURE=false
       # - KURIYR_SMTP_USER=your-user
       # - KURIYR_SMTP_PASS=your-password
+      # - KURIYR_DASHBOARD_USER=admin
+      # - KURIYR_DASHBOARD_PASSWORD=changeme
+      # - KURIYR_API_TOKEN=your-secret-token
     restart: unless-stopped

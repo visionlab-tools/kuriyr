@@ -11,6 +11,9 @@ services:
       - KURIYR_FROM_EMAIL=noreply@kuriyr.local
       - KURIYR_SMTP_HOST=mailpit
       - KURIYR_SMTP_PORT=1025
+      - KURIYR_DASHBOARD_USER=admin
+      - KURIYR_DASHBOARD_PASSWORD=admin
+      - KURIYR_API_TOKEN=demo-secret-token
     depends_on:
       - mailpit
 

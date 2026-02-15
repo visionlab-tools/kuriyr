@@ -4,6 +4,7 @@ import Fastify from 'fastify'
 import { existsSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { createApiAuth, createDashboardAuth } from './auth.js'
 import { loadConfig } from './config.js'
 import { createDispatcher } from './core/dispatcher.js'
 import { createLogsRepository } from './db/logs.js'
@@ -29,6 +30,16 @@ const start = async () => {
       prefix: '/',
       decorateReply: false,
     })
+  }
+
+  // Register auth hooks when credentials are configured
+  if (config.dashboardUser && config.dashboardPassword) {
+    server.addHook('onRequest', createDashboardAuth(config.dashboardUser, config.dashboardPassword))
+    console.log('Dashboard authentication enabled')
+  }
+  if (config.apiToken) {
+    server.addHook('onRequest', createApiAuth(config.apiToken))
+    console.log('API token authentication enabled')
   }
 
   const db = initDatabase()

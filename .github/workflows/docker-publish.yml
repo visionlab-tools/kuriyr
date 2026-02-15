@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_call:
 
 jobs:
   build-and-push:
@@ -15,6 +16,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version from latest git tag
+        id: version
+        run: |
+          TAG=$(git tag -l 'v*' --sort=-v:refname | head -n1)
+          VERSION="${TAG#v}"
+          MAJOR=$(echo "$VERSION" | cut -d. -f1)
+          MINOR=$(echo "$VERSION" | cut -d. -f2)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "major=$MAJOR" >> "$GITHUB_OUTPUT"
+          echo "major_minor=$MAJOR.$MINOR" >> "$GITHUB_OUTPUT"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -32,26 +46,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            ghcr.io/${{ github.repository }}
-            docker.io/brngrst/kuriyr
-          tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=raw,value=latest
-
       - name: Build and push
         uses: docker/build-push-action@v6
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          MAJOR: ${{ steps.version.outputs.major }}
+          MAJOR_MINOR: ${{ steps.version.outputs.major_minor }}
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}
+            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.major_minor }}
+            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.major }}
+            ghcr.io/${{ github.repository }}:latest
+            docker.io/brngrst/kuriyr:${{ steps.version.outputs.version }}
+            docker.io/brngrst/kuriyr:${{ steps.version.outputs.major_minor }}
+            docker.io/brngrst/kuriyr:${{ steps.version.outputs.major }}
+            docker.io/brngrst/kuriyr:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           # arm64 disabled: QEMU emulation crashes with native modules (better-sqlite3)

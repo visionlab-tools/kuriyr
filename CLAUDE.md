@@ -2,7 +2,7 @@
 
 ## Stack
 
-- **Runtime**: Node.js 20+, ESM, TypeScript strict
+- **Runtime**: Node.js 22+, ESM, TypeScript strict
 - **Server**: Fastify 5
 - **Email rendering**: React Email (`@react-email/render`, `@react-email/components`)
 - **Database**: SQLite via `better-sqlite3` (WAL mode)
@@ -26,12 +26,15 @@ pnpm dev              # Start dev server (port 4400)
 pnpm tsc              # Type-check without emitting
 pnpm lint             # ESLint
 pnpm build:dashboard  # Build Svelte dashboard into src/dashboard/
+pnpm generate-token   # Generate a cryptographic API token
 ```
 
 ## Key Files
 
-- `src/index.ts` — Bootstrap: config → DB → provider → dispatcher → routes
+- `src/index.ts` — Bootstrap: config → auth hooks → DB → provider → dispatcher → routes
 - `src/config.ts` — Config loading with Zod validation
+- `src/auth.ts` — Optional Basic Auth (dashboard) + Bearer token (API) hooks
+- `src/cli.ts` — CLI commands (generate-token)
 - `src/core/dispatcher.ts` — Orchestrates i18n → render → send → log
 - `src/core/renderer.ts` — React Email rendering with dynamic imports
 - `src/core/i18n.ts` — Translation loading with locale fallback

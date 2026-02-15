@@ -19,4 +19,8 @@ export default defineConfig({
       },
     },
   },
+  // Optional authentication — omit to run without auth
+  // dashboardUser: 'admin',
+  // dashboardPassword: 'changeme',
+  // apiToken: 'your-secret-token',
 })

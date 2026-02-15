@@ -26,6 +26,10 @@ const configSchema = z.object({
   providers: z.object({
     email: smtpConfigSchema,
   }),
+  // Optional auth — when omitted, Kuriyr runs without authentication
+  dashboardUser: z.string().optional(),
+  dashboardPassword: z.string().optional(),
+  apiToken: z.string().optional(),
 })
 
 export type KuriyrConfig = z.infer<typeof configSchema>
@@ -61,6 +65,9 @@ function loadFromEnv(): Record<string, unknown> | null {
         auth,
       },
     },
+    dashboardUser: process.env.KURIYR_DASHBOARD_USER,
+    dashboardPassword: process.env.KURIYR_DASHBOARD_PASSWORD,
+    apiToken: process.env.KURIYR_API_TOKEN,
   }
 }
 
