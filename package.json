@@ -1,6 +1,6 @@
 {
   "name": "kuriyr",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Self-hosted transactional email microservice with React Email templates, i18n and monitoring dashboard",
   "type": "module",
   "scripts": {
