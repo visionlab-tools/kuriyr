@@ -18,20 +18,43 @@ Most transactional email services are either SaaS-only, overly complex, or lack 
 
 ## Quick Start
 
-### With Docker (recommended)
+### With Docker Hub (recommended)
+
+No need to clone the repo. Create a `docker-compose.yml` and a `templates/` folder:
+
+```yaml
+services:
+  kuriyr:
+    image: visionlab/kuriyr:latest
+    ports:
+      - '4400:4400'
+    volumes:
+      - ./templates:/app/templates
+      - ./data:/app/data
+    environment:
+      - KURIYR_FROM_NAME=My App
+      - KURIYR_FROM_EMAIL=noreply@myapp.com
+      - KURIYR_SMTP_HOST=smtp.example.com
+      - KURIYR_SMTP_PORT=587
+      - KURIYR_SMTP_USER=your-user
+      - KURIYR_SMTP_PASS=your-password
+```
+
+```bash
+docker compose up
+```
+
+Kuriyr is now running at `http://localhost:4400`.
+
+### From source
 
 ```bash
 git clone https://github.com/visionlab-tools/kuriyr.git
 cd kuriyr
 
-# Edit your config
-cp kuriyr.config.example.ts kuriyr.config.ts
-# Update SMTP settings in kuriyr.config.ts
-
+# Build from source
 docker compose up --build
 ```
-
-Kuriyr is now running at `http://localhost:4400`.
 
 ### Without Docker
 

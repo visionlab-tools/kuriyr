@@ -112,7 +112,7 @@
         <div class="step fade-in">
           <span class="step-number">02</span>
           <h3>Configure &amp; launch</h3>
-          <p>Set your SMTP credentials in <code>kuriyr.config.ts</code> and run <code>docker compose up</code>.</p>
+          <p>Set your SMTP credentials via environment variables or <code>kuriyr.config.ts</code>, then run <code>docker compose up</code>.</p>
         </div>
         <div class="step fade-in">
           <span class="step-number">03</span>
@@ -139,13 +139,13 @@
             <span class="code-block-dot"></span>
             <span class="code-block-dot"></span>
           </div>
-          <pre><span class="cmd">git</span> clone https://github.com/visionlab-tools/kuriyr.git
-<span class="cmd">cd</span> kuriyr
-<span class="cmd">cp</span> kuriyr.config.example.ts kuriyr.config.ts
-<span class="comment"># Edit your SMTP config</span>
+          <pre><span class="comment"># Create a docker-compose.yml with your SMTP config</span>
+<span class="comment"># (see the README for the full example)</span>
+
+<span class="cmd">docker</span> pull visionlab/kuriyr:latest
 <span class="cmd">docker</span> compose up</pre>
         </div>
-        <p class="hint">Then open <code>http://localhost:4400</code> to see the dashboard.</p>
+        <p class="hint">Configure entirely via environment variables. Then open <code>http://localhost:4400</code> to see the dashboard.</p>
       </div>
     </div>
   </section>
