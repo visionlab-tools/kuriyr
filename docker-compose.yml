@@ -1,0 +1,12 @@
+services:
+  kuriyr:
+    build: .
+    ports:
+      - '4400:4400'
+    volumes:
+      - ./templates:/app/templates
+      - ./kuriyr.config.ts:/app/kuriyr.config.ts
+      - ./data:/app/data
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
