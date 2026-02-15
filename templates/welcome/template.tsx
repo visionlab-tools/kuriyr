@@ -1,3 +1,5 @@
+// Required for JSX runtime when templates are loaded dynamically outside the tsconfig scope
+import React from 'react'
 import {
   Body,
   Button,
