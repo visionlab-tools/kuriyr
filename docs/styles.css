@@ -2,7 +2,7 @@
    Kuriyr Landing Page — Nocturnal Courier
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&display=swap');
+/* Fonts loaded via <link> in HTML head for faster rendering */
 
 /* --- Tokens --- */
 :root {
@@ -58,6 +58,26 @@ body::before {
   background-size: 24px 24px;
   pointer-events: none;
   z-index: 0;
+}
+
+/* --- Skip link (accessibility) --- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 100;
+  padding: 12px 24px;
+  background: var(--accent);
+  color: #0a0a0a;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 16px;
 }
 
 /* --- Layout --- */
@@ -268,7 +288,7 @@ section {
 }
 
 .code-block pre .comment {
-  color: #6a737d;
+  color: #8b949e;
 }
 
 .code-block pre .string {
@@ -454,7 +474,7 @@ section {
 
 .footer-meta {
   font-size: 0.82rem;
-  color: #555;
+  color: #787878;
   line-height: 1.8;
 }
 
