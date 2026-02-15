@@ -1,5 +1,9 @@
 import cors from '@fastify/cors'
+import fastifyStatic from '@fastify/static'
 import Fastify from 'fastify'
+import { existsSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { loadConfig } from './config.js'
 import { createDispatcher } from './core/dispatcher.js'
 import { createLogsRepository } from './db/logs.js'
@@ -9,18 +13,28 @@ import { registerLogsRoutes } from './routes/logs.js'
 import { registerPreviewRoute } from './routes/preview.js'
 import { registerSendRoute } from './routes/send.js'
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
 const start = async () => {
   const config = await loadConfig()
   const server = Fastify({ logger: true })
 
   await server.register(cors)
 
+  // Serve the built dashboard if available
+  const dashboardPath = resolve(__dirname, 'dashboard')
+  if (existsSync(dashboardPath)) {
+    await server.register(fastifyStatic, {
+      root: dashboardPath,
+      prefix: '/',
+      decorateReply: false,
+    })
+  }
+
   const db = initDatabase()
   const logs = createLogsRepository(db)
   const provider = createProvider(config)
   const dispatcher = createDispatcher(config, provider, logs)
-
-  server.get('/', async () => ({ name: 'kuriyr', status: 'ok' }))
 
   registerSendRoute(server, dispatcher)
   registerPreviewRoute(server, dispatcher)

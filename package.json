@@ -7,6 +7,7 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node --import tsx dist/index.js",
+    "build:dashboard": "cd dashboard && pnpm build",
     "lint": "eslint src/",
     "tsc": "tsc --noEmit"
   },
@@ -16,6 +17,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^11.2.0",
+    "@fastify/static": "^9.0.0",
     "@react-email/components": "^1.0.7",
     "@react-email/render": "^2.0.4",
     "better-sqlite3": "^12.6.2",

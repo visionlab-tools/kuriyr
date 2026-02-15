@@ -11,6 +11,6 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ['dist/', 'dashboard/', 'node_modules/'],
+    ignores: ['dist/', 'dashboard/', 'node_modules/', 'src/dashboard/'],
   },
 )
