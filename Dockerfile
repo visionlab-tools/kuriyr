@@ -9,9 +9,11 @@ RUN pnpm build
 
 # --- Install production deps ---
 FROM node:20-alpine AS deps
+# Native deps needed to compile better-sqlite3
+RUN apk add --no-cache python3 make g++
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml .pnpm-approved-builds.json ./
 RUN pnpm install --frozen-lockfile --prod
 
 # --- Final image ---

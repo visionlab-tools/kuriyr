@@ -48,4 +48,5 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          platforms: linux/amd64,linux/arm64
+          # arm64 disabled: QEMU emulation crashes with native modules (better-sqlite3)
+          platforms: linux/amd64
