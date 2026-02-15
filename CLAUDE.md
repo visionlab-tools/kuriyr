@@ -7,7 +7,8 @@
 - **Email rendering**: React Email (`@react-email/render`, `@react-email/components`)
 - **Database**: SQLite via `better-sqlite3` (WAL mode)
 - **Validation**: Zod (config), Fastify JSON Schema (routes)
-- **Email sending**: Nodemailer (SMTP)
+- **Email sending**: Nodemailer (SMTP), Resend (API)
+- **Testing**: Vitest
 - **Dashboard**: Svelte 5 + Tailwind CSS 4 (SPA, hash routing)
 - **Config**: `kuriyr.config.ts` loaded dynamically via `tsx`
 
@@ -26,6 +27,7 @@ pnpm dev              # Start dev server (port 4400)
 pnpm tsc              # Type-check without emitting
 pnpm lint             # ESLint
 pnpm build:dashboard  # Build Svelte dashboard into src/dashboard/
+pnpm test             # Run unit tests (vitest)
 pnpm generate-token   # Generate a cryptographic API token
 ```
 
@@ -41,6 +43,7 @@ pnpm generate-token   # Generate a cryptographic API token
 - `src/db/schema.ts` — SQLite schema initialization
 - `src/db/logs.ts` — Logs repository (insert, find, count)
 - `src/providers/smtp.ts` — SMTP provider via Nodemailer
+- `src/providers/resend.ts` — Resend provider via API
 - `src/routes/` — Fastify route handlers (send, preview, logs)
 
 ## Templates

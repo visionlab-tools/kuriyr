@@ -16,6 +16,11 @@ const smtpConfigSchema = z.object({
     .optional(),
 })
 
+const resendConfigSchema = z.object({
+  type: z.literal('resend'),
+  apiKey: z.string(),
+})
+
 const configSchema = z.object({
   from: z.object({
     name: z.string(),
@@ -24,7 +29,7 @@ const configSchema = z.object({
   defaultLocale: z.string().default('en'),
   port: z.number().default(4400),
   providers: z.object({
-    email: smtpConfigSchema,
+    email: z.discriminatedUnion('type', [smtpConfigSchema, resendConfigSchema]),
   }),
   // Optional auth — when omitted, Kuriyr runs without authentication
   dashboardUser: z.string().optional(),
@@ -39,16 +44,8 @@ export function defineConfig(config: z.input<typeof configSchema>): z.input<type
   return config
 }
 
-/** Builds config from KURIYR_* environment variables */
-function loadFromEnv(): Record<string, unknown> | null {
-  const host = process.env.KURIYR_SMTP_HOST
-  if (!host) return null
-
-  const auth =
-    process.env.KURIYR_SMTP_USER && process.env.KURIYR_SMTP_PASS
-      ? { user: process.env.KURIYR_SMTP_USER, pass: process.env.KURIYR_SMTP_PASS }
-      : undefined
-
+/** Shared env fields reused across provider configs */
+function sharedEnvFields() {
   return {
     from: {
       name: process.env.KURIYR_FROM_NAME ?? 'Kuriyr',
@@ -56,19 +53,45 @@ function loadFromEnv(): Record<string, unknown> | null {
     },
     defaultLocale: process.env.KURIYR_DEFAULT_LOCALE ?? 'en',
     port: parseInt(process.env.KURIYR_PORT ?? '4400', 10),
-    providers: {
-      email: {
-        type: 'smtp',
-        host,
-        port: parseInt(process.env.KURIYR_SMTP_PORT ?? '587', 10),
-        secure: process.env.KURIYR_SMTP_SECURE === 'true',
-        auth,
-      },
-    },
     dashboardUser: process.env.KURIYR_DASHBOARD_USER,
     dashboardPassword: process.env.KURIYR_DASHBOARD_PASSWORD,
     apiToken: process.env.KURIYR_API_TOKEN,
   }
+}
+
+/** Builds config from KURIYR_* environment variables */
+function loadFromEnv(): Record<string, unknown> | null {
+  // Priority: SMTP host > Resend key > null (fallback to config file)
+  const smtpHost = process.env.KURIYR_SMTP_HOST
+  if (smtpHost) {
+    const auth =
+      process.env.KURIYR_SMTP_USER && process.env.KURIYR_SMTP_PASS
+        ? { user: process.env.KURIYR_SMTP_USER, pass: process.env.KURIYR_SMTP_PASS }
+        : undefined
+
+    return {
+      ...sharedEnvFields(),
+      providers: {
+        email: {
+          type: 'smtp',
+          host: smtpHost,
+          port: parseInt(process.env.KURIYR_SMTP_PORT ?? '587', 10),
+          secure: process.env.KURIYR_SMTP_SECURE === 'true',
+          auth,
+        },
+      },
+    }
+  }
+
+  const resendKey = process.env.KURIYR_RESEND_API_KEY
+  if (resendKey) {
+    return {
+      ...sharedEnvFields(),
+      providers: { email: { type: 'resend', apiKey: resendKey } },
+    }
+  }
+
+  return null
 }
 
 /** Loads config from kuriyr.config.ts file */
@@ -106,7 +129,7 @@ export async function loadConfig(): Promise<KuriyrConfig> {
   const configPath = resolve(process.cwd(), 'kuriyr.config.ts')
   if (!existsSync(configPath)) {
     throw new Error(
-      'No config found. Set KURIYR_SMTP_HOST env var or create kuriyr.config.ts',
+      'No config found. Set KURIYR_SMTP_HOST or KURIYR_RESEND_API_KEY env var, or create kuriyr.config.ts',
     )
   }
 

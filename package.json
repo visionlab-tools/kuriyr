@@ -10,7 +10,8 @@
     "build:dashboard": "cd dashboard && pnpm build",
     "lint": "eslint src/",
     "tsc": "tsc --noEmit",
-    "generate-token": "tsx src/cli.ts generate-token"
+    "generate-token": "tsx src/cli.ts generate-token",
+    "test": "vitest run"
   },
   "license": "MIT",
   "engines": {
@@ -25,6 +26,7 @@
     "fastify": "^5.7.4",
     "nodemailer": "^8.0.1",
     "react": "^19.2.4",
+    "resend": "^6.9.2",
     "tsx": "^4.21.0",
     "zod": "^4.3.6"
   },
@@ -43,6 +45,7 @@
     "eslint": "^9.39.2",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.55.0"
+    "typescript-eslint": "^8.55.0",
+    "vitest": "^4.0.18"
   }
 }
