@@ -5,21 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kuriyr — Self-hosted notification microservice for SaaS developers</title>
   <meta name="description" content="Send transactional emails with React Email templates, built-in i18n, and a monitoring dashboard. Open source, Docker-ready.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://visionlab-tools.github.io/kuriyr/">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- Open Graph -->
   <meta property="og:title" content="Kuriyr — Self-hosted notification microservice">
   <meta property="og:description" content="React Email templates, built-in i18n, monitoring dashboard. One docker compose up and you're live.">
-  <meta property="og:image" content="https://visionlab-tools.github.io/kuriyr/og-image.png">
+  <meta property="og:image" content="https://visionlab-tools.github.io/kuriyr/og-image.svg">
+  <meta property="og:url" content="https://visionlab-tools.github.io/kuriyr/">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kuriyr">
+
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kuriyr — Self-hosted notification microservice">
+  <meta name="twitter:description" content="Send transactional emails with React Email templates, built-in i18n, and a monitoring dashboard. Open source, Docker-ready.">
+  <meta name="twitter:image" content="https://visionlab-tools.github.io/kuriyr/og-image.svg">
+
+  <!-- Fonts: preconnect + link instead of CSS @import for faster loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&display=swap">
+
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Kuriyr",
+    "description": "Self-hosted notification microservice for SaaS developers. Send transactional emails with React Email templates, built-in i18n, and a monitoring dashboard.",
+    "url": "https://visionlab-tools.github.io/kuriyr/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Docker, Linux, macOS, Windows",
+    "license": "https://opensource.org/licenses/MIT",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Visionlab"
+    }
+  }
+  </script>
 </head>
 <body>
 
+  <!-- Skip to main content for accessibility -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <main id="main">
+
   <!-- ====== Hero ====== -->
-  <section class="hero">
+  <section class="hero" aria-label="Introduction">
     <div class="container">
       <div class="logo fade-in">
-        <div class="logo-icon">K</div>
+        <div class="logo-icon" aria-hidden="true">K</div>
         <span class="logo-text">Kuriyr</span>
       </div>
       <h1 class="fade-in">The <em>self-hosted</em> notification microservice for SaaS developers.</h1>
@@ -29,7 +75,7 @@
       </p>
       <div class="cta-group fade-in">
         <a href="#quick-start" class="btn btn-primary">Get Started</a>
-        <a href="https://github.com/visionlab-tools/kuriyr" class="btn btn-outline" target="_blank" rel="noopener">
+        <a href="https://github.com/visionlab-tools/kuriyr" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           View on GitHub
         </a>
@@ -38,11 +84,11 @@
   </section>
 
   <!-- ====== Code Example ====== -->
-  <section class="code-section">
+  <section class="code-section" aria-label="Code example">
     <div class="container fade-in">
       <p class="label">Send a translated email in one API call.</p>
       <div class="code-block">
-        <div class="code-block-header">
+        <div class="code-block-header" aria-hidden="true">
           <span class="code-block-dot"></span>
           <span class="code-block-dot"></span>
           <span class="code-block-dot"></span>
@@ -62,7 +108,7 @@
   <hr class="divider">
 
   <!-- ====== Features ====== -->
-  <section>
+  <section aria-label="Features">
     <div class="container">
       <div class="section-header fade-in">
         <p class="eyebrow">Features</p>
@@ -97,7 +143,7 @@
   <hr class="divider">
 
   <!-- ====== How it works ====== -->
-  <section>
+  <section aria-label="How it works">
     <div class="container">
       <div class="section-header fade-in">
         <p class="eyebrow">How it works</p>
@@ -105,17 +151,17 @@
       </div>
       <div class="steps-grid">
         <div class="step fade-in">
-          <span class="step-number">01</span>
+          <span class="step-number" aria-hidden="true">01</span>
           <h3>Write your templates</h3>
           <p>Create React Email components in the <code>/templates</code> folder with JSON locale files.</p>
         </div>
         <div class="step fade-in">
-          <span class="step-number">02</span>
+          <span class="step-number" aria-hidden="true">02</span>
           <h3>Configure &amp; launch</h3>
           <p>Set your SMTP credentials or Resend API key via environment variables or <code>kuriyr.config.ts</code>, then run <code>docker compose up</code>.</p>
         </div>
         <div class="step fade-in">
-          <span class="step-number">03</span>
+          <span class="step-number" aria-hidden="true">03</span>
           <h3>Send via API</h3>
           <p>Call <code>POST /send</code> with a template name, locale, and variables. Kuriyr handles the rest.</p>
         </div>
@@ -126,7 +172,7 @@
   <hr class="divider">
 
   <!-- ====== Quick Start ====== -->
-  <section class="quick-start" id="quick-start">
+  <section class="quick-start" id="quick-start" aria-label="Quick start">
     <div class="container">
       <div class="section-header fade-in">
         <p class="eyebrow">Quick Start</p>
@@ -134,7 +180,7 @@
       </div>
       <div class="fade-in">
         <div class="code-block">
-          <div class="code-block-header">
+          <div class="code-block-header" aria-hidden="true">
             <span class="code-block-dot"></span>
             <span class="code-block-dot"></span>
             <span class="code-block-dot"></span>
@@ -150,15 +196,17 @@
     </div>
   </section>
 
+  </main>
+
   <hr class="divider">
 
   <!-- ====== Footer ====== -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-links">
-        <a href="https://github.com/visionlab-tools/kuriyr" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://github.com/visionlab-tools/kuriyr#readme" target="_blank" rel="noopener">Documentation</a>
-      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="https://github.com/visionlab-tools/kuriyr" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://github.com/visionlab-tools/kuriyr#readme" target="_blank" rel="noopener noreferrer">Documentation</a>
+      </nav>
       <p class="footer-meta">
         MIT License &mdash; Built by Visionlab<br>
         Contributions welcome
