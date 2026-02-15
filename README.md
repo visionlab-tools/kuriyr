@@ -25,7 +25,7 @@ No need to clone the repo. Create a `docker-compose.yml` and a `templates/` fold
 ```yaml
 services:
   kuriyr:
-    image: visionlab/kuriyr:latest
+    image: ghcr.io/visionlab-tools/kuriyr:latest
     ports:
       - '4400:4400'
     volumes:
@@ -127,7 +127,7 @@ Example with Docker Compose:
 ```yaml
 services:
   kuriyr:
-    image: visionlab/kuriyr:latest
+    image: ghcr.io/visionlab-tools/kuriyr:latest
     ports:
       - '4400:4400'
     volumes:
