@@ -1,7 +1,7 @@
-import Database from 'better-sqlite3'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { KuriyrConfig } from '../config.js'
 import { createLogsRepository, type LogsRepository } from '../db/logs.js'
+import { initDatabase } from '../db/schema.js'
 import type { Provider } from '../providers/provider.interface.js'
 import { createDispatcher } from './dispatcher.js'
 
@@ -18,27 +18,6 @@ vi.mock('./renderer.js', () => ({
 const { loadTranslations } = vi.mocked(await import('./i18n.js'))
 const { renderTemplate } = vi.mocked(await import('./renderer.js'))
 
-function createTestDb(): Database.Database {
-  const db = new Database(':memory:')
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS logs (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      template TEXT NOT NULL,
-      locale TEXT NOT NULL,
-      recipient TEXT NOT NULL,
-      channel TEXT NOT NULL DEFAULT 'email',
-      subject TEXT NOT NULL DEFAULT '',
-      html TEXT NOT NULL DEFAULT '',
-      status TEXT NOT NULL CHECK(status IN ('sent', 'error')),
-      message_id TEXT,
-      error TEXT,
-      variables TEXT NOT NULL DEFAULT '{}',
-      sent_at TEXT NOT NULL DEFAULT (datetime('now'))
-    )
-  `)
-  return db
-}
-
 const CONFIG: KuriyrConfig = {
   from: { name: 'Test', email: 'test@test.com' },
   defaultLocale: 'en',
@@ -52,7 +31,7 @@ describe('dispatcher', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    logs = createLogsRepository(createTestDb())
+    logs = createLogsRepository(initDatabase(':memory:'))
     provider = { name: 'mock', send: vi.fn() }
   })
 

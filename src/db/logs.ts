@@ -1,4 +1,4 @@
-import type Database from 'better-sqlite3'
+import type { Database } from 'bun:sqlite'
 
 export interface LogEntry {
   id: number
@@ -35,10 +35,10 @@ export interface LogsRepository {
   count(params: { template?: string; status?: string }): number
 }
 
-export function createLogsRepository(db: Database.Database): LogsRepository {
+export function createLogsRepository(db: Database): LogsRepository {
   const insertStmt = db.prepare(`
     INSERT INTO logs (template, locale, recipient, channel, subject, html, status, message_id, error, variables)
-    VALUES (@template, @locale, @recipient, @channel, @subject, @html, @status, @messageId, @error, @variables)
+    VALUES ($template, $locale, $recipient, $channel, $subject, $html, $status, $messageId, $error, $variables)
   `)
 
   const findByIdStmt = db.prepare('SELECT * FROM logs WHERE id = ?')
@@ -46,16 +46,16 @@ export function createLogsRepository(db: Database.Database): LogsRepository {
   return {
     insert(log: InsertLog): LogEntry {
       const result = insertStmt.run({
-        template: log.template,
-        locale: log.locale,
-        recipient: log.recipient,
-        channel: log.channel ?? 'email',
-        subject: log.subject,
-        html: log.html,
-        status: log.status,
-        messageId: log.message_id ?? null,
-        error: log.error ?? null,
-        variables: JSON.stringify(log.variables),
+        $template: log.template,
+        $locale: log.locale,
+        $recipient: log.recipient,
+        $channel: log.channel ?? 'email',
+        $subject: log.subject,
+        $html: log.html,
+        $status: log.status,
+        $messageId: log.message_id ?? null,
+        $error: log.error ?? null,
+        $variables: JSON.stringify(log.variables),
       })
       return findByIdStmt.get(result.lastInsertRowid) as LogEntry
     },
@@ -66,37 +66,37 @@ export function createLogsRepository(db: Database.Database): LogsRepository {
 
     findAll({ page, limit, template, status }) {
       const conditions: string[] = []
-      const params: Record<string, unknown> = {}
+      const params: Record<string, string | number> = {}
 
       if (template) {
-        conditions.push('template = @template')
-        params.template = template
+        conditions.push('template = $template')
+        params.$template = template
       }
       if (status) {
-        conditions.push('status = @status')
-        params.status = status
+        conditions.push('status = $status')
+        params.$status = status
       }
 
       const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : ''
       const offset = (page - 1) * limit
 
       const stmt = db.prepare(
-        `SELECT * FROM logs ${where} ORDER BY sent_at DESC LIMIT @limit OFFSET @offset`,
+        `SELECT * FROM logs ${where} ORDER BY sent_at DESC LIMIT $limit OFFSET $offset`,
       )
-      return stmt.all({ ...params, limit, offset }) as LogEntry[]
+      return stmt.all({ ...params, $limit: limit, $offset: offset }) as LogEntry[]
     },
 
     count({ template, status }) {
       const conditions: string[] = []
-      const params: Record<string, unknown> = {}
+      const params: Record<string, string> = {}
 
       if (template) {
-        conditions.push('template = @template')
-        params.template = template
+        conditions.push('template = $template')
+        params.$template = template
       }
       if (status) {
-        conditions.push('status = @status')
-        params.status = status
+        conditions.push('status = $status')
+        params.$status = status
       }
 
       const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : ''

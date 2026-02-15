@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3'
+import { Database } from 'bun:sqlite'
 import { mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 
@@ -26,14 +26,16 @@ const CREATE_INDEXES = [
 ]
 
 /** Initializes the SQLite database with WAL mode and the logs table */
-export function initDatabase(dbPath?: string): Database.Database {
+export function initDatabase(dbPath?: string): Database {
   const path = dbPath ?? resolve(process.cwd(), 'data', 'kuriyr.db')
 
-  // Ensure data directory exists
-  mkdirSync(resolve(path, '..'), { recursive: true })
+  // In-memory DBs don't need a directory on disk
+  if (path !== ':memory:') {
+    mkdirSync(resolve(path, '..'), { recursive: true })
+  }
 
   const db = new Database(path)
-  db.pragma('journal_mode = WAL')
+  db.exec('PRAGMA journal_mode = WAL')
 
   db.exec(CREATE_TABLE)
   for (const idx of CREATE_INDEXES) {

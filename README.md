@@ -13,6 +13,7 @@ Most transactional email services are either SaaS-only, overly complex, or lack 
 - **REST API** — Simple `POST /send` and `POST /preview` endpoints
 - **Monitoring dashboard** — Built-in Svelte SPA to browse and preview sent emails
 - **SQLite storage** — Zero-config persistent logging of all sent emails
+- **SMTP or Resend** — Send via your own SMTP server or the Resend API
 - **Docker ready** — One command to deploy with `docker compose up`
 - **Self-hosted** — Your data stays on your infrastructure
 
@@ -21,6 +22,8 @@ Most transactional email services are either SaaS-only, overly complex, or lack 
 ### With Docker Hub (recommended)
 
 No need to clone the repo. Create a `docker-compose.yml` and a `templates/` folder:
+
+**With SMTP:**
 
 ```yaml
 services:
@@ -38,6 +41,23 @@ services:
       - KURIYR_SMTP_PORT=587
       - KURIYR_SMTP_USER=your-user
       - KURIYR_SMTP_PASS=your-password
+```
+
+**With Resend:**
+
+```yaml
+services:
+  kuriyr:
+    image: ghcr.io/visionlab-tools/kuriyr:latest
+    ports:
+      - '4400:4400'
+    volumes:
+      - ./templates:/app/templates
+      - ./data:/app/data
+    environment:
+      - KURIYR_FROM_NAME=My App
+      - KURIYR_FROM_EMAIL=noreply@myapp.com
+      - KURIYR_RESEND_API_KEY=re_your_api_key
 ```
 
 ```bash
@@ -62,22 +82,24 @@ docker compose up --build
 git clone https://github.com/visionlab-tools/kuriyr.git
 cd kuriyr
 
-pnpm install
-cd dashboard && pnpm install && cd ..
+bun install
+cd dashboard && bun install && cd ..
 
 # Build the dashboard
-pnpm build:dashboard
+bun run build:dashboard
 
 # Edit your config
 cp kuriyr.config.example.ts kuriyr.config.ts
 
 # Start the server
-pnpm dev
+bun run dev
 ```
 
 ## Configuration
 
 Edit `kuriyr.config.ts` at the project root:
+
+**SMTP provider:**
 
 ```typescript
 import { defineConfig } from './src/config.js'
@@ -104,11 +126,32 @@ export default defineConfig({
 })
 ```
 
+**Resend provider:**
+
+```typescript
+import { defineConfig } from './src/config.js'
+
+export default defineConfig({
+  from: {
+    name: 'My App',
+    email: 'noreply@myapp.com',
+  },
+  defaultLocale: 'en',
+  port: 4400,
+  providers: {
+    email: {
+      type: 'resend',
+      apiKey: 're_your_api_key',
+    },
+  },
+})
+```
+
 The `defineConfig` function provides full TypeScript autocompletion.
 
 ### Environment Variables
 
-You can configure Kuriyr entirely via environment variables, which is ideal for Docker deployments. If `KURIYR_SMTP_HOST` is set, env vars take priority over the config file.
+You can configure Kuriyr entirely via environment variables, which is ideal for Docker deployments. If `KURIYR_SMTP_HOST` or `KURIYR_RESEND_API_KEY` is set, env vars take priority over the config file.
 
 | Variable | Description | Default |
 |---|---|---|
@@ -116,11 +159,12 @@ You can configure Kuriyr entirely via environment variables, which is ideal for 
 | `KURIYR_FROM_EMAIL` | Sender email | `noreply@localhost` |
 | `KURIYR_DEFAULT_LOCALE` | Default locale for templates | `en` |
 | `KURIYR_PORT` | Server port | `4400` |
-| `KURIYR_SMTP_HOST` | SMTP server host | *(required)* |
+| `KURIYR_SMTP_HOST` | SMTP server host | *(optional)* |
 | `KURIYR_SMTP_PORT` | SMTP server port | `587` |
 | `KURIYR_SMTP_SECURE` | Use TLS | `false` |
 | `KURIYR_SMTP_USER` | SMTP username | *(optional)* |
 | `KURIYR_SMTP_PASS` | SMTP password | *(optional)* |
+| `KURIYR_RESEND_API_KEY` | Resend API key (alternative to SMTP) | *(optional)* |
 | `KURIYR_DASHBOARD_USER` | Dashboard HTTP Basic username | *(disabled)* |
 | `KURIYR_DASHBOARD_PASSWORD` | Dashboard HTTP Basic password | *(disabled)* |
 | `KURIYR_API_TOKEN` | Bearer token for API routes | *(disabled)* |
@@ -169,7 +213,7 @@ curl -X POST http://localhost:4400/send \
 Use the built-in CLI to generate a cryptographically secure token:
 
 ```bash
-pnpm generate-token
+bun run generate-token
 ```
 
 ## API Reference
@@ -303,12 +347,14 @@ The monitoring dashboard is accessible at `http://localhost:4400` and provides:
 
 ## Architecture
 
+- **Bun** — Runtime & package manager
 - **Fastify** — HTTP server
 - **React Email** — Template rendering engine
-- **SQLite** (better-sqlite3) — Persistent log storage
+- **SQLite** (bun:sqlite) — Persistent log storage
 - **Svelte + Tailwind CSS 4** — Monitoring dashboard
 - **Zod** — Configuration validation
 - **Nodemailer** — SMTP provider
+- **Resend** — API-based email provider
 
 ## License
 

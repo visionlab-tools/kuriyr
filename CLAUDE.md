@@ -2,15 +2,15 @@
 
 ## Stack
 
-- **Runtime**: Node.js 22+, ESM, TypeScript strict
+- **Runtime**: Bun, ESM, TypeScript strict
 - **Server**: Fastify 5
 - **Email rendering**: React Email (`@react-email/render`, `@react-email/components`)
-- **Database**: SQLite via `better-sqlite3` (WAL mode)
+- **Database**: SQLite via `bun:sqlite` (WAL mode)
 - **Validation**: Zod (config), Fastify JSON Schema (routes)
 - **Email sending**: Nodemailer (SMTP), Resend (API)
 - **Testing**: Vitest
 - **Dashboard**: Svelte 5 + Tailwind CSS 4 (SPA, hash routing)
-- **Config**: `kuriyr.config.ts` loaded dynamically via `tsx`
+- **Config**: `kuriyr.config.ts` loaded dynamically (Bun runs TS natively)
 
 ## Conventions
 
@@ -23,12 +23,12 @@
 ## Key Commands
 
 ```bash
-pnpm dev              # Start dev server (port 4400)
-pnpm tsc              # Type-check without emitting
-pnpm lint             # ESLint
-pnpm build:dashboard  # Build Svelte dashboard into src/dashboard/
-pnpm test             # Run unit tests (vitest)
-pnpm generate-token   # Generate a cryptographic API token
+bun run dev              # Start dev server (port 4400)
+bun run tsc              # Type-check without emitting
+bun run lint             # ESLint
+bun run build:dashboard  # Build Svelte dashboard into src/dashboard/
+bun run test             # Run unit tests (vitest)
+bun run generate-token   # Generate a cryptographic API token
 ```
 
 ## Key Files
