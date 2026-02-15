@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuriyr — Self-hosted notification microservice for SaaS developers</title>
+  <meta name="description" content="Send transactional emails with React Email templates, built-in i18n, and a monitoring dashboard. Open source, Docker-ready.">
+  <meta property="og:title" content="Kuriyr — Self-hosted notification microservice">
+  <meta property="og:description" content="React Email templates, built-in i18n, monitoring dashboard. One docker compose up and you're live.">
+  <meta property="og:image" content="https://visionlab-tools.github.io/kuriyr/og-image.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ====== Hero ====== -->
+  <section class="hero">
+    <div class="container">
+      <div class="logo fade-in">
+        <div class="logo-icon">K</div>
+        <span class="logo-text">Kuriyr</span>
+      </div>
+      <h1 class="fade-in">The <em>self-hosted</em> notification microservice for SaaS developers.</h1>
+      <p class="subtitle fade-in">
+        Send transactional emails with React Email templates, built-in i18n, and a monitoring dashboard.
+        One <code>docker compose up</code> and you're live.
+      </p>
+      <div class="cta-group fade-in">
+        <a href="#quick-start" class="btn btn-primary">Get Started</a>
+        <a href="https://github.com/visionlab-tools/kuriyr" class="btn btn-outline" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Code Example ====== -->
+  <section class="code-section">
+    <div class="container fade-in">
+      <p class="label">Send a translated email in one API call.</p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-dot"></span>
+          <span class="code-block-dot"></span>
+          <span class="code-block-dot"></span>
+        </div>
+        <pre><span class="cmd">curl</span> <span class="flag">-X</span> POST http://localhost:4400/send \
+  <span class="flag">-H</span> <span class="string">"Content-Type: application/json"</span> \
+  <span class="flag">-d</span> <span class="string">'{
+    <span class="key">"template"</span>: <span class="value">"welcome"</span>,
+    <span class="key">"locale"</span>: <span class="value">"fr"</span>,
+    <span class="key">"to"</span>: <span class="value">"user@example.com"</span>,
+    <span class="key">"variables"</span>: { <span class="key">"name"</span>: <span class="value">"Jane"</span> }
+  }'</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ====== Features ====== -->
+  <section>
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="eyebrow">Features</p>
+        <h2>Everything you need, nothing you don't.</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card fade-in">
+          <span class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </span>
+          <h3>React Email Templates</h3>
+          <p>Write your email templates as React components. Preview them, reuse them, version them with your code.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <span class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          </span>
+          <h3>Built-in i18n</h3>
+          <p>Drop JSON locale files next to your templates. Kuriyr resolves translations and interpolates variables automatically.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <span class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          </span>
+          <h3>Monitoring Dashboard</h3>
+          <p>See every email sent, its status, and a full HTML preview. All from a simple self-hosted UI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ====== How it works ====== -->
+  <section>
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="eyebrow">How it works</p>
+        <h2>Three steps. That's it.</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step fade-in">
+          <span class="step-number">01</span>
+          <h3>Write your templates</h3>
+          <p>Create React Email components in the <code>/templates</code> folder with JSON locale files.</p>
+        </div>
+        <div class="step fade-in">
+          <span class="step-number">02</span>
+          <h3>Configure &amp; launch</h3>
+          <p>Set your SMTP credentials in <code>kuriyr.config.ts</code> and run <code>docker compose up</code>.</p>
+        </div>
+        <div class="step fade-in">
+          <span class="step-number">03</span>
+          <h3>Send via API</h3>
+          <p>Call <code>POST /send</code> with a template name, locale, and variables. Kuriyr handles the rest.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ====== Quick Start ====== -->
+  <section class="quick-start" id="quick-start">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="eyebrow">Quick Start</p>
+        <h2>Up and running in 60 seconds.</h2>
+      </div>
+      <div class="fade-in">
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-dot"></span>
+            <span class="code-block-dot"></span>
+            <span class="code-block-dot"></span>
+          </div>
+          <pre><span class="cmd">git</span> clone https://github.com/visionlab-tools/kuriyr.git
+<span class="cmd">cd</span> kuriyr
+<span class="cmd">cp</span> kuriyr.config.example.ts kuriyr.config.ts
+<span class="comment"># Edit your SMTP config</span>
+<span class="cmd">docker</span> compose up</pre>
+        </div>
+        <p class="hint">Then open <code>http://localhost:4400</code> to see the dashboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ====== Footer ====== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/visionlab-tools/kuriyr" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/visionlab-tools/kuriyr#readme" target="_blank" rel="noopener">Documentation</a>
+      </div>
+      <p class="footer-meta">
+        MIT License &mdash; Built by Visionlab<br>
+        Contributions welcome
+      </p>
+    </div>
+  </footer>
+
+  <!-- Fade-in on scroll -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var els = document.querySelectorAll('.fade-in');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('visible'); });
+        return;
+      }
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      els.forEach(function (el) { observer.observe(el); });
+    });
+  </script>
+
+</body>
+</html>

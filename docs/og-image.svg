@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <!-- Dot grid -->
+  <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+    <circle cx="12" cy="12" r="0.8" fill="#ffffff" opacity="0.06"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <!-- Glow -->
+  <ellipse cx="600" cy="260" rx="300" ry="180" fill="rgba(129,140,248,0.08)"/>
+  <!-- Logo icon -->
+  <rect x="520" y="180" width="52" height="52" rx="12" fill="url(#accent)"/>
+  <text x="546" y="218" text-anchor="middle" font-family="Georgia, serif" font-size="32" font-weight="700" fill="white">K</text>
+  <!-- Logo text -->
+  <text x="588" y="218" font-family="Georgia, serif" font-size="36" fill="#e5e5e5">Kuriyr</text>
+  <!-- Tagline -->
+  <text x="600" y="310" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" fill="#e5e5e5">The self-hosted notification microservice</text>
+  <text x="600" y="350" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" fill="#e5e5e5">for SaaS developers.</text>
+  <!-- Subtitle -->
+  <text x="600" y="410" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="#888888">React Email templates · i18n · Monitoring dashboard · Docker-ready</text>
+  <!-- URL -->
+  <text x="600" y="520" text-anchor="middle" font-family="monospace" font-size="16" fill="#6366f1">github.com/visionlab-tools/kuriyr</text>
+</svg>
