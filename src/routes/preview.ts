@@ -26,6 +26,7 @@ export function registerPreviewRoute(server: FastifyInstance, dispatcher: Dispat
         const result = await dispatcher.preview(request.body)
         return reply.send(result)
       } catch (err) {
+        request.log.error({ template: request.body.template, err }, 'Preview error')
         const message = err instanceof Error ? err.message : 'Internal server error'
         return reply.status(400).send({ error: message })
       }

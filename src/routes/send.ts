@@ -30,11 +30,14 @@ export function registerSendRoute(server: FastifyInstance, dispatcher: Dispatche
         const result = await dispatcher.send(request.body)
 
         if (!result.success) {
+          request.log.error({ template: request.body.template, to: request.body.to, err: result.error }, 'Email send failed')
           return reply.status(500).send({ success: false, error: result.error, logId: result.logId })
         }
 
+        request.log.info({ template: request.body.template, to: request.body.to, logId: result.logId }, 'Email sent')
         return reply.send(result)
       } catch (err) {
+        request.log.error({ template: request.body.template, to: request.body.to, err }, 'Send request error')
         const message = err instanceof Error ? err.message : 'Internal server error'
         return reply.status(400).send({ success: false, error: message })
       }
