@@ -5,8 +5,16 @@ services:
       - '4400:4400'
     volumes:
       - ./templates:/app/templates
-      - ./kuriyr.config.ts:/app/kuriyr.config.ts
       - ./data:/app/data
     environment:
       - NODE_ENV=production
+      - KURIYR_FROM_NAME=My App
+      - KURIYR_FROM_EMAIL=noreply@example.com
+      - KURIYR_DEFAULT_LOCALE=en
+      - KURIYR_PORT=4400
+      - KURIYR_SMTP_HOST=smtp.example.com
+      - KURIYR_SMTP_PORT=587
+      - KURIYR_SMTP_SECURE=false
+      # - KURIYR_SMTP_USER=your-user
+      # - KURIYR_SMTP_PASS=your-password
     restart: unless-stopped

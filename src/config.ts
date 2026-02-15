@@ -1,6 +1,7 @@
-import { z } from 'zod'
-import { pathToFileURL } from 'node:url'
+import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
+import { z } from 'zod'
 
 const smtpConfigSchema = z.object({
   type: z.literal('smtp'),
@@ -34,8 +35,37 @@ export function defineConfig(config: z.input<typeof configSchema>): z.input<type
   return config
 }
 
-/** Loads and validates kuriyr.config.ts from the project root */
-export async function loadConfig(): Promise<KuriyrConfig> {
+/** Builds config from KURIYR_* environment variables */
+function loadFromEnv(): Record<string, unknown> | null {
+  const host = process.env.KURIYR_SMTP_HOST
+  if (!host) return null
+
+  const auth =
+    process.env.KURIYR_SMTP_USER && process.env.KURIYR_SMTP_PASS
+      ? { user: process.env.KURIYR_SMTP_USER, pass: process.env.KURIYR_SMTP_PASS }
+      : undefined
+
+  return {
+    from: {
+      name: process.env.KURIYR_FROM_NAME ?? 'Kuriyr',
+      email: process.env.KURIYR_FROM_EMAIL ?? 'noreply@localhost',
+    },
+    defaultLocale: process.env.KURIYR_DEFAULT_LOCALE ?? 'en',
+    port: parseInt(process.env.KURIYR_PORT ?? '4400', 10),
+    providers: {
+      email: {
+        type: 'smtp',
+        host,
+        port: parseInt(process.env.KURIYR_SMTP_PORT ?? '587', 10),
+        secure: process.env.KURIYR_SMTP_SECURE === 'true',
+        auth,
+      },
+    },
+  }
+}
+
+/** Loads config from kuriyr.config.ts file */
+async function loadFromFile(): Promise<Record<string, unknown>> {
   const configPath = resolve(process.cwd(), 'kuriyr.config.ts')
   const fileUrl = pathToFileURL(configPath).href
 
@@ -51,5 +81,29 @@ export async function loadConfig(): Promise<KuriyrConfig> {
     throw new Error('Config file must export a default value or a "config" named export')
   }
 
-  return configSchema.parse(raw)
+  return raw as Record<string, unknown>
+}
+
+/**
+ * Loads config with priority: env vars > config file.
+ * If KURIYR_SMTP_HOST is set, env vars are used exclusively.
+ * Otherwise falls back to kuriyr.config.ts.
+ */
+export async function loadConfig(): Promise<KuriyrConfig> {
+  const envConfig = loadFromEnv()
+  if (envConfig) {
+    console.log('Loading config from environment variables')
+    return configSchema.parse(envConfig)
+  }
+
+  const configPath = resolve(process.cwd(), 'kuriyr.config.ts')
+  if (!existsSync(configPath)) {
+    throw new Error(
+      'No config found. Set KURIYR_SMTP_HOST env var or create kuriyr.config.ts',
+    )
+  }
+
+  console.log('Loading config from kuriyr.config.ts')
+  const fileConfig = await loadFromFile()
+  return configSchema.parse(fileConfig)
 }

@@ -83,6 +83,42 @@ export default defineConfig({
 
 The `defineConfig` function provides full TypeScript autocompletion.
 
+### Environment Variables
+
+You can configure Kuriyr entirely via environment variables, which is ideal for Docker deployments. If `KURIYR_SMTP_HOST` is set, env vars take priority over the config file.
+
+| Variable | Description | Default |
+|---|---|---|
+| `KURIYR_FROM_NAME` | Sender name | `Kuriyr` |
+| `KURIYR_FROM_EMAIL` | Sender email | `noreply@localhost` |
+| `KURIYR_DEFAULT_LOCALE` | Default locale for templates | `en` |
+| `KURIYR_PORT` | Server port | `4400` |
+| `KURIYR_SMTP_HOST` | SMTP server host | *(required)* |
+| `KURIYR_SMTP_PORT` | SMTP server port | `587` |
+| `KURIYR_SMTP_SECURE` | Use TLS | `false` |
+| `KURIYR_SMTP_USER` | SMTP username | *(optional)* |
+| `KURIYR_SMTP_PASS` | SMTP password | *(optional)* |
+
+Example with Docker Compose:
+
+```yaml
+services:
+  kuriyr:
+    image: visionlab/kuriyr:latest
+    ports:
+      - '4400:4400'
+    volumes:
+      - ./templates:/app/templates
+      - ./data:/app/data
+    environment:
+      - KURIYR_FROM_NAME=My App
+      - KURIYR_FROM_EMAIL=noreply@myapp.com
+      - KURIYR_SMTP_HOST=smtp.example.com
+      - KURIYR_SMTP_PORT=587
+      - KURIYR_SMTP_USER=your-user
+      - KURIYR_SMTP_PASS=your-password
+```
+
 ## API Reference
 
 ### Send an email

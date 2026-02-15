@@ -23,7 +23,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=dashboard-builder /app/src/dashboard ./src/dashboard
 COPY package.json ./
 COPY src/ ./src/
-COPY kuriyr.config.ts ./
 COPY templates/ ./templates/
 
 ENV NODE_ENV=production
