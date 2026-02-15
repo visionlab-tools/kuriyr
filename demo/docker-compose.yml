@@ -1,0 +1,21 @@
+services:
+  kuriyr:
+    build: ..
+    ports:
+      - '4400:4400'
+    volumes:
+      - ../templates:/app/templates
+      - ./data:/app/data
+    environment:
+      - KURIYR_FROM_NAME=Kuriyr Demo
+      - KURIYR_FROM_EMAIL=noreply@kuriyr.local
+      - KURIYR_SMTP_HOST=mailpit
+      - KURIYR_SMTP_PORT=1025
+    depends_on:
+      - mailpit
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - '8025:8025'
+      - '1025:1025'
