@@ -23,7 +23,7 @@ jobs:
           TAG=$(git tag -l 'v*' --sort=-v:refname | head -n1)
           echo "tag=${TAG:-v0.0.0}" >> "$GITHUB_OUTPUT"
 
-      - name: Bump minor version
+      - name: Bump patch version
         id: bump
         env:
           LATEST_TAG: ${{ steps.latest.outputs.tag }}
@@ -32,7 +32,7 @@ jobs:
           MAJOR=$(echo "$VERSION" | cut -d. -f1)
           MINOR=$(echo "$VERSION" | cut -d. -f2)
           PATCH=$(echo "$VERSION" | cut -d. -f3)
-          NEW_VERSION="$MAJOR.$((MINOR + 1)).$PATCH"
+          NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
           echo "version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$NEW_VERSION" >> "$GITHUB_OUTPUT"
 
