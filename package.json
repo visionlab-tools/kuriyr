@@ -11,9 +11,14 @@
     "lint": "eslint src/",
     "tsc": "tsc --noEmit",
     "generate-token": "bun src/cli.ts generate-token",
-    "test": "bun run vitest run"
+    "test": "bun run vitest run",
+    "lint:staged": "bun run tsc && bun run lint",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "license": "MIT",
+  "engines": {
+    "bun": ">=1.1"
+  },
   "dependencies": {
     "@fastify/cors": "^11.2.0",
     "@fastify/static": "^9.0.0",
