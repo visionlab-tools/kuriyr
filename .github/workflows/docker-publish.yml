@@ -30,6 +30,9 @@ jobs:
           echo "major=$MAJOR" >> "$GITHUB_OUTPUT"
           echo "major_minor=$MAJOR.$MINOR" >> "$GITHUB_OUTPUT"
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -66,5 +69,4 @@ jobs:
             docker.io/brngrst/kuriyr:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          # arm64 disabled: QEMU emulation crashes with native modules (better-sqlite3)
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
