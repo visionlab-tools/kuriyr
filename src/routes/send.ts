@@ -10,6 +10,7 @@ const bodySchema = {
     to: { type: 'string', format: 'email' },
     variables: { type: 'object', additionalProperties: { type: 'string' } },
     channel: { type: 'string' },
+    subject: { type: 'string' },
   },
 } as const
 
@@ -19,6 +20,7 @@ interface SendBody {
   to: string
   variables: Record<string, string>
   channel?: string
+  subject?: string
 }
 
 export function registerSendRoute(server: FastifyInstance, dispatcher: Dispatcher) {

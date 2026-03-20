@@ -10,6 +10,7 @@ export interface SendRequest {
   to: string
   variables: Record<string, string>
   channel?: string
+  subject?: string
 }
 
 export interface PreviewRequest {
@@ -57,18 +58,21 @@ export function createDispatcher(
       Object.entries(translations).map(([k, v]) => [k, interpolate(v, request.variables)]),
     )
 
-    const { html, text, subject } = await renderTemplate(
+    const rendered = await renderTemplate(
       request.template,
       interpolated,
       request.variables,
     )
 
+    // Allow caller to override the template-derived subject
+    const subject = request.subject ?? rendered.subject
+
     const result = await provider.send({
       from: config.from,
       to: request.to,
       subject,
-      html,
-      text,
+      html: rendered.html,
+      text: rendered.text,
     })
 
     const log = logs.insert({
@@ -77,7 +81,7 @@ export function createDispatcher(
       recipient: request.to,
       channel: request.channel ?? 'email',
       subject,
-      html,
+      html: rendered.html,
       status: result.success ? 'sent' : 'error',
       message_id: result.messageId,
       error: result.error,
