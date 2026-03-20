@@ -11,6 +11,7 @@ export interface SendRequest {
   variables: Record<string, string>
   channel?: string
   subject?: string
+  fromName?: string
 }
 
 export interface PreviewRequest {
@@ -67,8 +68,12 @@ export function createDispatcher(
     // Allow caller to override the template-derived subject
     const subject = request.subject ?? rendered.subject
 
+    const from = request.fromName
+      ? { ...config.from, name: request.fromName }
+      : config.from
+
     const result = await provider.send({
-      from: config.from,
+      from,
       to: request.to,
       subject,
       html: rendered.html,

@@ -11,6 +11,7 @@ const bodySchema = {
     variables: { type: 'object', additionalProperties: { type: 'string' } },
     channel: { type: 'string' },
     subject: { type: 'string' },
+    fromName: { type: 'string' },
   },
 } as const
 
@@ -21,6 +22,7 @@ interface SendBody {
   variables: Record<string, string>
   channel?: string
   subject?: string
+  fromName?: string
 }
 
 export function registerSendRoute(server: FastifyInstance, dispatcher: Dispatcher) {
