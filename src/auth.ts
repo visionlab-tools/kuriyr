@@ -3,6 +3,13 @@ import { timingSafeEqual } from 'node:crypto'
 
 const API_ROUTES = ['/send', '/preview', '/logs']
 
+// Container healthchecks call this without credentials
+const PUBLIC_ROUTES = ['/health']
+
+function isPublicRoute(url: string): boolean {
+  return PUBLIC_ROUTES.some((route) => url === route || url.startsWith(`${route}?`))
+}
+
 function isApiRoute(url: string): boolean {
   return API_ROUTES.some((route) => url === route || url.startsWith(`${route}/`))
 }
@@ -39,7 +46,7 @@ function rejectBasicAuth(reply: FastifyReply): void {
 /** Protects dashboard routes (everything except API routes) with HTTP Basic Auth */
 export function createDashboardAuth(user: string, password: string): onRequestHookHandler {
   return (request: FastifyRequest, reply: FastifyReply, done) => {
-    if (isApiRoute(request.url)) return done()
+    if (isApiRoute(request.url) || isPublicRoute(request.url)) return done()
 
     const credentials = parseBasicAuth(request.headers.authorization ?? '')
     if (!credentials || !safeCompare(credentials.user, user) || !safeCompare(credentials.password, password)) {

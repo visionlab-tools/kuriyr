@@ -10,6 +10,7 @@ import { createDispatcher } from './core/dispatcher.js'
 import { createLogsRepository } from './db/logs.js'
 import { initDatabase } from './db/schema.js'
 import { createProvider } from './providers/index.js'
+import { registerHealthRoute } from './routes/health.js'
 import { registerLogsRoutes } from './routes/logs.js'
 import { registerPreviewRoute } from './routes/preview.js'
 import { registerSendRoute } from './routes/send.js'
@@ -47,6 +48,7 @@ const start = async () => {
   const provider = createProvider(config)
   const dispatcher = createDispatcher(config, provider, logs)
 
+  registerHealthRoute(server)
   registerSendRoute(server, dispatcher)
   registerPreviewRoute(server, dispatcher)
   registerLogsRoutes(server, logs)

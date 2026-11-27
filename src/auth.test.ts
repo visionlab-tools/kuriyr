@@ -49,6 +49,20 @@ describe('createDashboardAuth', () => {
     expect(done).toHaveBeenCalled()
   })
 
+  it('lets the health route through without credentials', () => {
+    const done = vi.fn()
+    callHook(hook, createMockRequest('/health'), createMockReply(), done)
+    expect(done).toHaveBeenCalled()
+  })
+
+  it('does not treat lookalike paths as the health route', () => {
+    const done = vi.fn()
+    const reply = createMockReply()
+    callHook(hook, createMockRequest('/healthz'), reply, done)
+    expect(done).not.toHaveBeenCalled()
+    expect(reply.statusCode).toBe(401)
+  })
+
   it('allows valid Basic credentials', () => {
     const done = vi.fn()
     callHook(hook, createMockRequest('/', validAuth), createMockReply(), done)
@@ -80,6 +94,12 @@ describe('createApiAuth', () => {
   it('skips non-API routes', () => {
     const done = vi.fn()
     callHook(hook, createMockRequest('/'), createMockReply(), done)
+    expect(done).toHaveBeenCalled()
+  })
+
+  it('lets the health route through without a token', () => {
+    const done = vi.fn()
+    callHook(hook, createMockRequest('/health'), createMockReply(), done)
     expect(done).toHaveBeenCalled()
   })
 

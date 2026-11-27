@@ -286,6 +286,14 @@ curl "http://localhost:4400/logs?template=welcome&status=sent"
 curl http://localhost:4400/logs/1
 ```
 
+### Health check
+
+`GET /health` answers `{ "status": "ok" }` with no authentication, for container healthchecks and uptime monitors. The Docker image uses it for its `HEALTHCHECK`.
+
+```bash
+curl http://localhost:4400/health
+```
+
 ## Creating Templates
 
 Templates live in the `templates/` directory. Each template has its own folder:

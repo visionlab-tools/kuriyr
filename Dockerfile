@@ -21,6 +21,6 @@ ENV NODE_ENV=production
 EXPOSE 4400
 
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-  CMD wget -q --spider http://localhost:4400/logs || exit 1
+  CMD ["bun", "-e", "fetch('http://localhost:4400/health').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
 
 CMD ["bun", "src/index.ts"]
